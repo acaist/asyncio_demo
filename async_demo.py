@@ -3,7 +3,6 @@ import random
 from concurrent.futures import ThreadPoolExecutor, Future
 import time
 
-
 def blocking_funcion(product_count:int, n:float):
     """A sample blocking task that simulates a time-consuming operation."""
     time.sleep(n)
