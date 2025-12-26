@@ -116,7 +116,7 @@ class AsyncScheduler:
         comsum_n = int(self.init_size*self.factor)
         while self.running:
             # print("[消费者]：消费者开始消费")
-            # 一次性取出queue中所有任务，避免阻塞
+            # 贪婪，一次性取出queue中所有任务，避免阻塞
             while not self.queue.empty():
                 future = await self.queue.get()
                 self.queue.task_done()
