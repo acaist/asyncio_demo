@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -41,9 +41,16 @@ jobs:
   tag_and_release:
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v4
+    - name: Create tag
+      run: |
+        echo "TAG_NAME=v$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git tag ${{ env.TAG_NAME }}
+        git push origin ${{ env.TAG_NAME }}
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -55,4 +62,4 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ github.ref_name }}
+        tag: ${{ env.TAG_NAME }}
