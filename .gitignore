@@ -1,3 +1,7 @@
+__pycache__/
+*.pyc
+__pypackages__/
+
 worlddemo.ipynb
 genesis_world_demo.py
 plot_gaussian.py
